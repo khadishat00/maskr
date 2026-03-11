@@ -1,0 +1,17 @@
+.button1{
+    background-color: white;
+    cursor: pointer;
+    padding: 10px;
+    border: 0px;
+}
+.button i{
+    
+}
+.spelen{
+    background-color: white;
+    width: 300px;
+    border: 15px solid green;
+    padding: 50px;
+    margin: 20px;
+    box-sizing: border-box;
+}

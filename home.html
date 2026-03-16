@@ -15,10 +15,10 @@
   </head>
   <header class="py-2 mb-3 border-bottom bg-white">
     <div
-      class="container-fluid d-flex align-items-center justify-content-between"
+      class="container d-flex align-items-center justify-content-between"
     >
       <div class="logo">
-        <img src="assets/logo.png" alt="logo" width="50" height="50" />
+       <a href="home.html"> <img src="assets/logo.png" alt="logo" width="50" height="50" /></a>
       </div>
       <div class="dropdown">
         <button
@@ -28,9 +28,7 @@
           style="
             background-color: white;
             border: 2px solid purple;
-            color: black;
-          "
-        >
+            color: black;" >
           Kies je mood
         </button>
         <ul class="dropdown-menu">
@@ -52,10 +50,9 @@
         />
 
         <ul class="dropdown-menu dropdown-menu-end text-small shadow">
-          <li><a class="dropdown-item" href="#">Instellingen</a></li>
-          <li><a class="dropdown-item" href="#">Profiel</a></li>
+          <li><a class="dropdown-item" href="#">Profiel</a></li>  <!-- profile page nog aanmaken-->
           <li><hr class="dropdown-divider" /></li>
-          <li><a class="dropdown-item" href="#">Afmelden</a></li>
+          <li><a class="dropdown-item" href="index.html">Afmelden</a></li>
         </ul>
       </div>
     </div>
@@ -97,10 +94,9 @@
                 <div class="icon-box gradient-blue me-3 text-white">
                   <i data-lucide="rows-3" style="width: 32px; height: 32px"></i>
                 </div>
-                <div>
+                <div onclick="window.location.href='collection.html'">
                   <h3 class="h5 fw-bold mb-1">Bekijk collecties</h3>
-                  <span class="material-symbols-outlined"> genres </span>
-                  <p class="small text-purple-900 mb-0">
+                  <p class="small text-purple-900 ">
                     Blader door je favoriete nummers
                   </p>
                 </div>
@@ -113,9 +109,9 @@
                 <div class="icon-box gradient-orange me-3 text-white">
                   <i data-lucide="trophy" style="width: 32px; height: 32px"></i>
                 </div>
-                <div>
-                  <h3 class="h5 fw-bold mb-1">Raad het nummer</h3>
-                  <p class="small text-purple-900 mb-0">Test je muziekkennis</p>
+                <div onclick="window.location.href='guessthesong.html'">
+                    <h3 class="h5 fw-bold mb-1">Raad het nummer</h3>
+                  <p class="small text-purple-900">Test je muziekkennis</p>
                 </div>
               </div>
             </div>
@@ -125,7 +121,7 @@
 
       <section class="mb-5">
         <h2 class="h4 fw-bold text-black mb-4">🎵 Nummer van de week</h2>
-        <div class="card song-of-the-week border-2 shadow-sm">
+        <div class="card song-of-the-week border-2 shadow-sm" onclick="window.location.href='song.html?song=Blinding%20Lights'">
           <div class="card-body p-4 d-flex align-items-center">
             <img
               src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=300"
@@ -135,7 +131,7 @@
             <div class="ms-4 flex-grow-1">
               <h3 class="h3 fw-bold mb-1">Blinding Lights</h3>
               <p class="text-purple-900 fs-5 mb-3">The Weeknd</p>
-              <div class="d-flex gap-3 text-sm text-purple-900 opacity-75">
+              <div class="d-flex gap-3 text-sm text-purple-900 ">
                 <span>Populariteit: 95%</span>
                 <span>Energie: 80%</span>
               </div>
@@ -146,10 +142,8 @@
 
       <section class="mb-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
-          <h2 class="h4 fw-bold text-black mb-0">🔥 Populaire Nummers</h2>
-          <a href="collection.html"
-            ><button class="btn btn-outline-dark px-4">Bekijk Alles</button></a
-          >
+          <h2 class="h4 fw-bold text-black">🔥 Populaire Nummers</h2>
+        
         </div>
         <div
           id="popularSongsGrid"
@@ -159,6 +153,7 @@
     </div>
 
     <script src="js/home.js"></script>
+    <script src="js/zoek.js"></script>
     <script>
       lucide.createIcons();
     </script>

@@ -14,14 +14,13 @@
   </head>
   <body class="bg-light">
     <!-- Header -->
-  <header class="py-2 mb-3 border-bottom bg-white">
-  <div class="container-fluid d-flex align-items-center justify-content-between">
-
-    <div class="logo">
-      <img src="assets/logo.png" alt="logo" width="50" height="50">
-    </div>
-   
-</header>
+    <header class="py-2 mb-3 border-bottom bg-white">
+      <div class="container-fluid d-flex align-items-center justify-content-between">
+        <div class="logo">
+          <img src="assets/logo.png" alt="logo" width="50" height="50" />
+        </div>
+      </div>
+    </header>
 
     <div
       class="container d-flex justify-content-center align-items-center"
@@ -66,6 +65,14 @@
               </a>
             </div>
           </div>
+
+          <!-- Foutmelding wordt hier getoond -->
+          <div
+            id="error-message"
+            class="text-danger mb-3"
+            style="display: none;"
+            role="alert"
+          ></div>
 
           <!-- Knop inloggen -->
           <div class="d-grid mt-4">

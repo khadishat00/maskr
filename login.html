@@ -10,15 +10,16 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/general.css" />
+    <script type="text/javascript" src="js/login.js" defer></script>
   </head>
   <body class="bg-light">
     <!-- Header -->
   <header class="py-2 mb-3 border-bottom bg-white">
-  <div class="container-fluid d-flex align-items-center justify-content-between">
+  <div class="container d-flex align-items-center justify-content-between">
 
-    <div class="logo">
-      <img src="assets/logo.png" alt="logo" width="50" height="50">
-    </div>
+  <div class="logo">
+    <a href="home.html"> <img src="assets/logo.png" alt="logo" width="50" height="50" /></a>
+  </div>
    
 </header>
 
@@ -36,7 +37,7 @@
           <p class="text-muted">Log in om verder te gaan</p>
         </div>
 
-        <form>
+        <form id="loginForm">
           <!-- E-mail -->
           <div class="mb-3">
             <label for="email" class="form-label">E-mail</label>

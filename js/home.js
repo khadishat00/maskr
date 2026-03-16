@@ -39,30 +39,58 @@ cover:"https://images.unsplash.com/photo-1518972559570-7cc1309f3229?w=300"
 
 const grid = document.getElementById("popularSongsGrid");
 
-songs.forEach(song =>{
+// Alleen uitvoeren als we op de homepagina zijn (waar het grid bestaat)
+if (grid) {
+    songs.forEach(song => {
+        const col = document.createElement("div");
+        col.className = "col";
 
-const col = document.createElement("div");
-col.className="col";
+        col.innerHTML = `
+            <div class="card song-card p-2 border-2" 
+                 style="cursor:pointer" 
+                 onclick="openSong('${song.title}')">
+                
+                <img src="${song.cover}" class="song-img">
+                
+                <div class="song-title">${song.title}</div>
+                <div class="song-artist">${song.artist}</div>
+                
+                <div class="popularity-bar">
+                    <div class="popularity-fill" style="width:${song.popularity}%"></div>
+                </div>
+                
+                <div class="text-end small mt-1">${song.popularity}%</div>
+            </div>
+        `;
 
-col.innerHTML=`
-<div class="card song-card p-2 border-2">
+        grid.appendChild(col);
+    });
+}
 
-<img src="${song.cover}" class="song-img">
+// Functie om naar de detailpagina te gaan
+function openSong(title) {
+    window.location.href = "song.html?song=" + encodeURIComponent(title);
+}
 
-<div class="song-title">${song.title}</div>
+// --- DEEL 2: DETAIL PAGINA (Data invullen) ---
+// Dit deel wordt pas actief als je op song.html bent
+if (window.location.pathname.includes("song.html")) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const songTitle = urlParams.get('song');
 
-<div class="song-artist">${song.artist}</div>
+    // Zoek het liedje in de lijst bovenin
+    const selectedSong = songs.find(s => s.title === songTitle);
 
-<div class="popularity-bar">
-<div class="popularity-fill" style="width:${song.popularity}%"></div>
-</div>
+    if (selectedSong) {
+        // Vul de HTML elementen met de data van het gevonden liedje
+        const titleEl = document.getElementById('songTitle');
+        const artistEl = document.getElementById('songArtist');
+        const coverEl = document.getElementById('songCover');
+        const popEl = document.getElementById('songPopularity');
 
-<div class="text-end small mt-1">${song.popularity}%</div>
-
-</div>
-`;
-
-grid.appendChild(col);
-
-});
-
+        if (titleEl) titleEl.textContent = selectedSong.title;
+        if (artistEl) artistEl.textContent = selectedSong.artist;
+        if (coverEl) coverEl.src = selectedSong.cover;
+        if (popEl) popEl.textContent = selectedSong.popularity + "%";
+    }
+}

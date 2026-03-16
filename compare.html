@@ -10,48 +10,49 @@
     <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <header class="py-2 mb-3 border-bottom bg-white">
-  <div class="container-fluid d-flex align-items-center justify-content-between">
+    <div
+      class="container d-flex align-items-center justify-content-between"
+    >
+       <div class="logo">
+       <a href="home.html"> <img src="assets/logo.png" alt="logo" width="50" height="50" /></a>
+      </div>
+      <div class="dropdown">
+        <button
+          class="btn dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          style="
+            background-color: white;
+            border: 2px solid purple;
+            color: black;" >
+          Kies je mood
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">😊 Blij</a></li>
+          <li><a class="dropdown-item" href="#">😴 Moe</a></li>
+          <li><a class="dropdown-item" href="#">💪 Gemotiveerd</a></li>
+          <li><a class="dropdown-item" href="#">😌 Relaxed</a></li>
+        </ul>
+      </div>
+      <div class="dropdown">
+        <img
+          src="https://images.pexels.com/photos/6985001/pexels-photo-6985001.jpeg"
+          alt="profiel"
+          width="32"
+          height="32"
+          class="rounded-circle dropdown-toggle"
+          data-bs-toggle="dropdown"
+          style="cursor: pointer"
+        />
 
-    <div class="logo">
-      <img src="assets/logo.png" alt="logo" width="50" height="50">
+        <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+          <li><a class="dropdown-item" href="#">Profiel</a></li>  <!-- profile page nog aanmaken-->
+          <li><hr class="dropdown-divider" /></li>
+          <li><a class="dropdown-item" href="index.html">Afmelden</a></li>
+        </ul>
+      </div>
     </div>
-    <div class="dropdown">
-<button 
-  class="btn dropdown-toggle"
-  type="button"
-  data-bs-toggle="dropdown"
-  style="background-color:white; border:2px solid purple; color:black;"
->
-  Kies je mood
-</button>
-      <ul class="dropdown-menu">
-        <li><a class="dropdown-item" href="#">😊 Blij</a></li>
-        <li><a class="dropdown-item" href="#">😴 Moe</a></li>
-        <li><a class="dropdown-item" href="#">💪 Gemotiveerd</a></li>
-        <li><a class="dropdown-item" href="#">😌 Relaxed</a></li>
-      </ul>
-    </div>
-    <div class="dropdown">
-      <img
-        src="https://images.pexels.com/photos/6985001/pexels-photo-6985001.jpeg"
-        alt="profiel"
-        width="32"
-        height="32"
-        class="rounded-circle dropdown-toggle"
-        data-bs-toggle="dropdown"
-        style="cursor:pointer;"
-      />
-
-      <ul class="dropdown-menu dropdown-menu-end text-small shadow">
-        <li><a class="dropdown-item" href="#">Instellingen</a></li>
-        <li><a class="dropdown-item" href="#">Profiel</a></li>
-        <li><hr class="dropdown-divider"></li>
-        <li><a class="dropdown-item" href="#">Afmelden</a></li>
-      </ul>
-    </div>
-
-  </div>
-</header>
+  </header>
 <body>
     
 </body>

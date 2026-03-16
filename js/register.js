@@ -1,38 +1,52 @@
 document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector("form");
+  const messageDiv = document.getElementById("register-message");
 
   form.addEventListener("submit", function (e) {
     e.preventDefault();
 
-    // Waarden uit formulier
+    // Verberg externe melding
+    messageDiv.style.display = "none";
+    messageDiv.textContent = "";
+
     const username = document.getElementById("username").value.trim();
     const email = document.getElementById("email").value.trim();
     const password = document.getElementById("password").value;
 
+    
     if (!username || !email || !password) {
-      alert("Vul alle velden in!");
+      messageDiv.textContent = "Vul alle velden in!";
+      messageDiv.style.display = "block";
       return;
     }
 
     if (password.length < 8) {
-      alert("Wachtwoord moet minstens 8 tekens bevatten!");
+      messageDiv.textContent = "Wachtwoord moet minstens 8 tekens bevatten!";
+      messageDiv.style.display = "block";
       return;
     }
-
-    const user = { username, email, password };
 
     const users = JSON.parse(localStorage.getItem("users") || "[]");
 
     if (users.some((u) => u.email === email)) {
-      alert("Er bestaat al een account met deze e-mail!");
+      messageDiv.textContent = "Er bestaat al een account met deze e-mail!";
+      messageDiv.style.display = "block";
       return;
     }
 
+    // Opslaan nieuwe gebruiker
+    const user = { username, email, password };
     users.push(user);
     localStorage.setItem("users", JSON.stringify(users));
 
-    alert("Account aangemaakt! Je wordt doorgestuurd naar de homepagina.");
+    // Succesmelding 
+    messageDiv.textContent = "Account aangemaakt!";
+    messageDiv.classList.remove("text-danger");
+    messageDiv.classList.add("text-success");
+    messageDiv.style.display = "block";
 
-    window.location.href = "home.html";
+    setTimeout(() => {
+      window.location.href = "home.html";
+    }, 1500); 
   });
 });

@@ -239,10 +239,9 @@ body {
 
 
 .game-container {
-  / background-color: rgb(238, 18, 18);
   width: 300px;
   border: 1px solid white;
-  padding: 50px; /
+  padding: 50px;
   margin: 30px; 
   display: flex;
   flex-direction: column;
@@ -265,7 +264,7 @@ body {
 } 
  p, button, .musicnote {
     display: flex;
-    /align-items: center;*/
+    align-items: center;
     gap: 6px;
 }
 

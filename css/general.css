@@ -262,7 +262,7 @@ body {
     width: 100%;
     padding: 10px;
 } 
- p, button, .musicnote {
+ button, .musicnote {
     display: flex;
     align-items: center;
     gap: 6px;

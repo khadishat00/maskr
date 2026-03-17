@@ -67,13 +67,12 @@ if (grid) {
     });
 }
 
-// Functie om naar de detailpagina te gaan
+// Functie detailpagina 
 function openSong(title) {
     window.location.href = "song.html?song=" + encodeURIComponent(title);
 }
 
-// --- DEEL 2: DETAIL PAGINA (Data invullen) ---
-// Dit deel wordt pas actief als je op song.html bent
+// actief als je op song page bent
 if (window.location.pathname.includes("song.html")) {
     const urlParams = new URLSearchParams(window.location.search);
     const songTitle = urlParams.get('song');
@@ -82,7 +81,6 @@ if (window.location.pathname.includes("song.html")) {
     const selectedSong = songs.find(s => s.title === songTitle);
 
     if (selectedSong) {
-        // Vul de HTML elementen met de data van het gevonden liedje
         const titleEl = document.getElementById('songTitle');
         const artistEl = document.getElementById('songArtist');
         const coverEl = document.getElementById('songCover');

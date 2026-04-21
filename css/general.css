@@ -236,77 +236,405 @@ body {
 
 /*  guessthesong */
 
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: white;
+  border-bottom: 1px solid #e5e5e5;
+}
 
+.logo {
+  font-weight: bold;
+  font-size: 20px;
+}
 
-.game-container {
-  width: 300px;
-  border: 1px solid white;
-  padding: 50px;
-  margin: 30px; 
+.mood-area {
+  text-align: center;
+}
+
+.mood-area label {
+  display: block;
+  font-size: 13px;
+  margin-bottom: 5px;
+}
+
+.mood-area select {
+  padding: 8px 12px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+}
+
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+}
+
+.score-box {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background-color: white;
+  padding: 10px 15px;
+  border-radius: 20px;
+  border: 1px solid #e5e5e5;
+}
+
+.score-box button,
+#playButton,
+#submitButton {
+  background-color: #20263f;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+
+#resetButton {
+  background-color: #eee7ff;
+  color: #20263f;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.mood-badge {
+  margin-top: 15px;
+  display: inline-block;
+  background-color: white;
+  border: 1px solid #e5e5e5;
+  border-radius: 20px;
+  padding: 10px 15px;
+}
+
+.card {
+  background-color: white;
+  margin-top: 20px;
+  padding: 25px;
+  border-radius: 20px;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  text-align: center;
+}
+
+#coverImage {
+  width: 260px;
+  max-width: 100%;
+  border-radius: 18px;
+  display: block;
+  margin: 20px auto;
+}
+
+#guessForm {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+#guessInput {
+  flex: 1;
+  padding: 14px;
+  border-radius: 25px;
+  border: 1px solid #ddd;
+}
+
+#submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+#message {
+  margin-top: 15px;
+  font-weight: bold;
+
+}
+
+@media (max-width: 700px) {
+  .navbar,
+  .title-row,
+  #guessForm {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .icons {
+    justify-content: center;
+  }
+}
+
+/* Library Styling */
+
+/* body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #121212;
+  color: white;
+} */
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.library-box {
+  width: 100%;
+  max-width: 430px;
+  background: #1b1b1b;
+  border-radius: 18px;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.top-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.small-button,
+.create-button,
+.filter-button,
+.modal-buttons button {
+  border: none;
+  border-radius: 20px;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.small-button {
+  background: #2a2a2a;
+  color: white;
+}
+
+.create-button {
+  color: white;
+}
+
+h1 {
+  margin-top: 0;
+  margin-bottom: 20px;
+}
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-button {
+  background: #2b2b2b;
+  color: white;
+}
+
+.filter-button.active {
+  background: hsl(150, 17%, 98%);
+}
+
+.control-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+.search-box {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #2b2b2b;
+  border-radius: 20px;
+  padding: 10px 12px;
+}
+
+.search-box input {
+  width: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: white;
+}
+
+.sort-box {
+  background: #2b2b2b;
+  border-radius: 20px;
+  padding: 8px 12px;
+}
+
+.sort-box label {
+  display: block;
+  font-size: 12px;
+  color: #b3b3b3;
+  margin-bottom: 4px;
+}
+
+.sort-box select {
+  border: none;
+  background: transparent;
+  color: white;
+  outline: none;
+}
+
+#messageText {
+  color: #b3b3b3;
+  font-size: 14px;
+}
+
+.playlist-list {
+  max-height: 65vh;
+  overflow-y: auto;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #222;
+  border-radius: 14px;
+  padding: 10px;
+  margin-bottom: 12px;
+}
+
+.card:hover {
+  background: #2e2e2e;
+}
+
+.card img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.card-text {
+  flex: 1;
+}
+
+.card-text h3 {
+  margin: 0 0 5px 0;
+  font-size: 16px;
+}
+
+.card-text p {
+  margin: 0;
+  color: #b3b3b3;
+  font-size: 14px;
+}
+
+.type-label {
+  background: #333;
+  color: #ddd;
+  padding: 6px 10px;
+  border-radius: 15px;
+  font-size: 12px;
+}
+
+.modal-background {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-box {
+  width: 90%;
+  max-width: 360px;
+  background: #1f1f1f;
+  padding: 20px;
+  border-radius: 16px;
+  box-sizing: border-box;
+}
+
+.modal-box h2 {
+  margin-top: 0;
+}
+
+.modal-box form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding-bottom: 50px;
-  border-style: solid;
-  background-color: white;
-  border-color: #f2f2f2;
-  border-radius: 9px;
+  gap: 10px;
 }
-.spelen{
-    gap: 20px;
-}
-.musicnote{
 
-    text-align: left;
-    width: 100%;
+.modal-box input,
+.modal-box select {
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  outline: none;
+}
+
+.modal-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.modal-buttons button {
+  background: #0d0e0d;
+  color: white;
+}
+
+#cancelButton {
+  background: #444;
+}
+
+.hidden {
+  display: none;
+}
+
+@media (max-width: 600px) {
+  .app {
     padding: 10px;
-} 
- button, .musicnote {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-}
+  }
 
-.spelen img{
-    width: 80%;
-    border-radius: 6px;
-}
-.afspelen {
-    gap: 10px;
-
-}
-.afspelen button{
-    color: white;
-    background-color: black;
-    border-radius: 4px;
-    border: none;
-    gap: 20px;
-
-} 
-.button1{
-    display: flex;
-    background-color: white;
-    cursor: pointer;
-    padding: 10px;
-    border: none;
-    border-radius: 8px;
-    font-size: 10px;
-
-}
-
-.liedje{
+  .library-box {
     padding: 15px;
-    align-items: start; 
-    font-size: 12px;
+  }
+
+  .control-row {
+    flex-direction: column;
+  }
 }
-.hoe {
-    color: blue;
-    border-style: solid;
-    background-color: rgb(138, 134, 169);
-    padding-bottom: 55px;
-    font-size: 10px;
-    align-items: start;
-    padding: 15px;
-}
+
+
+
 

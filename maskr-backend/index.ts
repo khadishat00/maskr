@@ -2,6 +2,7 @@ import express, { Express } from "express";
 import dotenv from "dotenv";
 import path from "path";
 import { connect } from "./database";
+import session from "./session";
 
 dotenv.config();
 
@@ -17,7 +18,10 @@ app.set("port", process.env.PORT || 3000);
 
 const mainRoutes = require("./routes/main");
 
-app.use("/", mainRoutes);
+//routes
+app.use(mainRoutes);
+//session
+app.use(session);
 
 app.listen(app.get("port"), async () => {
   try {

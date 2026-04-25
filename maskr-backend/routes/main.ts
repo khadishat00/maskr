@@ -1,6 +1,8 @@
 import express, { Router } from "express";
 import { createuser, login } from "../database";
 import { error } from "node:console";
+import { user } from "../types";
+import session from "../session";
 
 const router: Router = express.Router();
 
@@ -40,9 +42,12 @@ router.post("/signin", async (request, response) => {
     return response.render("signin", { error: error });
   }
   try {
-    await createuser(username, email, password, image);
-    //maak session aan
-
+    let user: user = await createuser(username, email, password, image);
+    //maakt session aan
+    //verwijderd wachtwoord zodat die niet wordt mee gestuurd in de session (veiligheid)
+    delete user.password;
+    //hier wordt de sessie aangemaakt
+    request.session.user = user;
     //home page
     return response.render("signin", { error: error });
   } catch (e) {
@@ -60,7 +65,10 @@ router.post("/login", async (request, response) => {
   const password: string = request.body.password;
 
   try {
-    await login(email, password);
+    let user: user = await login(email, password);
+    delete user.password;
+    request.session.user = user;
+    //redirect naar home page
   } catch (e) {
     console.log(e);
   }

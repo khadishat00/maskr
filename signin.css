@@ -1,0 +1,16 @@
+body {
+  background-color: #ffffff;
+}
+
+.btn-primary {
+  background-color: #6c3df4;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #4b26b3;
+}
+
+.card {
+  border-radius: 16px;
+}

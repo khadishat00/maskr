@@ -13,15 +13,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.set("views", path.join(__dirname, "views"));
+//session
+app.use(session);
 
 app.set("port", process.env.PORT || 3000);
 
 const mainRoutes = require("./routes/main");
+const protectedRoutes = require("./routes/protected");
 
 //routes
 app.use(mainRoutes);
-//session
-app.use(session);
+app.use(protectedRoutes);
 
 app.listen(app.get("port"), async () => {
   try {

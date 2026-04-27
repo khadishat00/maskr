@@ -1,8 +1,7 @@
 import express, { Router } from "express";
-import { createuser, login } from "../database";
-import { error } from "node:console";
-import { user } from "../types";
-import session from "../session";
+import { createUser, login } from "../database";
+
+import { User } from "../types";
 
 const router: Router = express.Router();
 
@@ -42,14 +41,10 @@ router.post("/signin", async (request, response) => {
     return response.render("signin", { error: error });
   }
   try {
-    let user: user = await createuser(username, email, password, image);
-    //maakt session aan
-    //verwijderd wachtwoord zodat die niet wordt mee gestuurd in de session (veiligheid)
-    delete user.password;
-    //hier wordt de sessie aangemaakt
-    request.session.user = user;
-    //home page
-    return response.render("signin", { error: error });
+    await createUser(username, email, password, image);
+    return response.render("login", {
+      error: "account is aangemaakt nu kan je inloggen",
+    });
   } catch (e) {
     console.log(e);
     return response.render("signin", { error: "Probeer het opnieuw" });
@@ -57,7 +52,7 @@ router.post("/signin", async (request, response) => {
 });
 
 router.get("/login", (request, response) => {
-  response.render("login", { error: error });
+  response.render("login", { error: "" });
 });
 
 router.post("/login", async (request, response) => {
@@ -65,15 +60,31 @@ router.post("/login", async (request, response) => {
   const password: string = request.body.password;
 
   try {
-    let user: user = await login(email, password);
+    let user: User = await login(email, password);
+    console.log(user);
+    //session
     delete user.password;
     request.session.user = user;
-    //redirect naar home page
+
+    request.session.save((err) => {
+      if (err) {
+        console.log("Session save error:", err);
+        return response.render("login", { error: "Probeer het opnieuw" });
+      }
+      return response.redirect("/home");
+    });
   } catch (e) {
     console.log(e);
+    return response.render("login", { error: "Ongeldige email of wachtwoord" });
   }
 
-  response.render("login", { error: error });
+  //response.render("login", { error: error });
+});
+
+router.post("/logout", async (request, response) => {
+  request.session.destroy(() => {
+    response.redirect("/login");
+  });
 });
 
 module.exports = router;

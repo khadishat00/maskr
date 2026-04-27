@@ -14,6 +14,7 @@
     "@types/connect-mongodb-session": "^2.4.8",
     "@types/ejs": "^3.1.5",
     "@types/express": "^5.0.6",
+    "@types/express-session": "^1.19.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.5.0",
     "@types/supertest": "^7.2.0",
@@ -26,10 +27,11 @@
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
-    "connect-mongodb-session": "^5.0.0",
+    "connect-mongo": "^6.0.0",
     "dotenv": "^17.3.1",
     "ejs": "^5.0.1",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
     "mongodb": "^7.2.0"
   }
 }

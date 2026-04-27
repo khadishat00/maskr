@@ -1,14 +1,7 @@
+import session from "express-session";
+import MongoStore from "connect-mongo";
 import { MONGODB_URI } from "./database";
-import session, { MemoryStore } from "express-session";
 import { User } from "./types";
-import mongoDbSession from "connect-mongodb-session";
-const MongoDBStore = mongoDbSession(session);
-
-const mongoStore = new MongoDBStore({
-  uri: MONGODB_URI,
-  collection: "sessions",
-  databaseName: "maskr",
-});
 
 declare module "express-session" {
   export interface SessionData {
@@ -17,13 +10,15 @@ declare module "express-session" {
 }
 
 export default session({
-  secret:
-    process.env.SESSION_SECRET ??
-    "60046333cbc44a5df7da47ed9ec9af45169b8949b1b03c6f2f87a0469ae014e4",
-  store: mongoStore,
-  resave: true,
-  saveUninitialized: true,
+  secret: process.env.SESSION_SECRET ?? "gdgg",
+  store: MongoStore.create({
+    mongoUrl: MONGODB_URI,
+    dbName: "maskr",
+    collectionName: "sessions",
+  }),
+  resave: false,
+  saveUninitialized: false,
   cookie: {
-    maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+    maxAge: 1000 * 60 * 60 * 24 * 7,
   },
 });

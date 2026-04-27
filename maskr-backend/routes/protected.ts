@@ -1,7 +1,7 @@
 import express, { Router } from "express";
 import { secureMiddleware } from "../secureMiddleware";
 import { editUser } from "../database";
-import { avatars } from "../types";
+import { avatars } from "../assets";
 
 const router: Router = express.Router();
 

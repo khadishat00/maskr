@@ -1,6 +1,6 @@
 import express, { Router } from "express";
 import { createUser, login } from "../database";
-import { avatars } from "../types";
+import { avatars } from "../assets";
 
 import { User } from "../types";
 

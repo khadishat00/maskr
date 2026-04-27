@@ -10,6 +10,9 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="/css/general.css" />
+
+
+
   </head>
 
   <body class="bg-light">
@@ -34,7 +37,7 @@
         <!-- Profielfoto -->
         <div class="mb-3">
           <img
-            src="/assets/avatar.png"
+            src="<%= user.image %>"
             alt="avatar"
             class="rounded-circle"
             width="100"
@@ -42,8 +45,32 @@
           />
         </div>
 
+      
         <!-- Form -->
         <form action="/profiel/edit" method="post">
+
+          <!-- Avatar keuze -->
+          <div class="d-flex gap-2 flex-wrap">
+            <% avatars.forEach(avatar => { %>
+          <label style="cursor: pointer">
+          <input
+            type="radio"
+            name="image"
+            value="<%= avatar %>"
+            class="d-none avatar-radio"
+            <%= user.image === avatar ? "checked" : "" %>
+          />
+
+      <img
+        src="<%= avatar %>"
+        width="60"
+        height="60"
+        class="rounded-circle border border-3 <%= user.image === avatar ? 'border-dark' : 'border-light' %>"
+      />
+    </label>
+  <% }) %>
+</div>
+
           <div class="text-start mb-3">
             <label for="username" class="form-label"
               ><strong>Gebruikersnaam</strong></label
@@ -75,7 +102,7 @@
               ><strong>Oude wachtwoord</strong></label
             >
             <input
-              type="text"
+              type="password"
               class="form-control"
               id="oudeWachtwoord"
               name="oudeWachtwoord"
@@ -87,7 +114,7 @@
               ><strong>nieuwe wachtwoord</strong></label
             >
             <input
-              type="text"
+              type="password"
               class="form-control"
               id="nieuweWachtwoord"
               name="nieuweWachtwoord"
@@ -103,3 +130,16 @@
     </div>
   </body>
 </html>
+
+    <script>
+  document.querySelectorAll(".avatar-radio").forEach(radio => {
+    radio.addEventListener("change", () => {
+      document.querySelectorAll(".avatar-radio").forEach(r => {
+        r.nextElementSibling.classList.remove("border-dark");
+        r.nextElementSibling.classList.add("border-light");
+      });
+      radio.nextElementSibling.classList.remove("border-light");
+      radio.nextElementSibling.classList.add("border-dark");
+    });
+  });
+</script>

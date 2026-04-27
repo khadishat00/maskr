@@ -48,36 +48,27 @@ export async function editUser(
     throw new Error("Id, email en gebruikersnaam zijn verplicht");
   }
 
+  const updateData: any = { email: email, image: image, username: username };
+
+  let passwordChanged = false;
+
+  if (oudeWachtwoord && nieuweWachtwoord) {
+    const user = await userCollection.findOne({ _id: new ObjectId(id) });
+
+    if (!user || !(await bcrypt.compare(oudeWachtwoord, user.password!))) {
+      return { success: false, passwordChanged: false };
+    }
+
+    updateData.password = await bcrypt.hash(nieuweWachtwoord, saltRounds);
+    passwordChanged = true;
+  }
+
   const result = await userCollection.updateOne(
     { _id: new ObjectId(id) },
-    { $set: { email, image, username } },
+    { $set: updateData },
   );
 
-  if (result.matchedCount === 0) {
-    throw new Error(`Gebruiker met id "${id}" niet gevonden`);
-  }
-
-  console.log(oudeWachtwoord);
-
-  const user = await userCollection.findOne({ _id: new ObjectId(id) });
-
-  if (user && oudeWachtwoord && nieuweWachtwoord) {
-    console.log("eerst");
-    if (await bcrypt.compare(oudeWachtwoord, user.password!)) {
-      const hashedPass = await bcrypt.hash(nieuweWachtwoord, saltRounds);
-      console.log("tweede");
-      try {
-        await userCollection.updateOne(
-          { _id: new ObjectId(id) },
-          { $set: { password: hashedPass } },
-        );
-
-        return true;
-      } catch (e) {
-        return false;
-      }
-    }
-  }
+  return { success: result.matchedCount > 0, passwordChanged };
 }
 
 export async function login(email: string, password: string) {

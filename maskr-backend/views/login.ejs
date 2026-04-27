@@ -39,9 +39,13 @@
         <div class="text-center mb-4">
           <h2 class="mb-1">Welkom!</h2>
           <p class="text-muted">Log in om verder te gaan</p>
+          <% if (error) { %>
+            <p style="color: red; font-weight: bold;"><%= error %></p>
+          <% } %>
         </div>
 
         <form method="post" action="/login">
+          
           <!-- E-mail -->
           <div class="mb-3">
             <label for="email" class="form-label">E-mail</label>
@@ -80,14 +84,7 @@
           </div>
         </form>
 
-        <!-- Foutmelding -->
-        <div
-          id="error-message"
-          class="text-danger mb-3"
-          style="display: none"
-          role="alert"
-        ></div>
-
+      
         <div class="text-center mt-3">
           <small>
             Nog geen account?

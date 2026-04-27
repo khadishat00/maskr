@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 import { createUser, login } from "../database";
+import { avatars } from "../types";
 
 import { User } from "../types";
 
@@ -17,7 +18,7 @@ router.post("/signin", async (request, response) => {
   const username: string = request.body.username;
   const email: string = request.body.email;
   const password: string = request.body.password;
-  const image: string = "";
+  const image: string = avatars[0];
   let error = "";
 
   //checks

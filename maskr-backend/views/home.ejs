@@ -43,7 +43,7 @@
       </div>
       <div class="dropdown">
         <img
-          src="https://images.pexels.com/photos/6985001/pexels-photo-6985001.jpeg"
+          src="<%= user.image %>"
           alt="profiel"
           width="32"
           height="32"
@@ -56,7 +56,13 @@
           <li><a class="dropdown-item" href="/profiel">Profiel</a></li>
           <!-- profile page nog aanmaken-->
           <li><hr class="dropdown-divider" /></li>
-          <li><a class="dropdown-item" href="index.html">Afmelden</a></li>
+          <li>
+            <form action="/logout" method="post" style="width: 100%">
+              <button class="dropdown-item" style="width: 100%" type="submit">
+                Uitloggen
+              </button>
+            </form>
+          </li>
         </ul>
       </div>
     </div>

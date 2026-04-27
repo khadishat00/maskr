@@ -1,6 +1,7 @@
 import express, { Router } from "express";
 import { secureMiddleware } from "../secureMiddleware";
 import { editUser } from "../database";
+import { avatars } from "../types";
 
 const router: Router = express.Router();
 
@@ -13,38 +14,40 @@ router.get("/profiel", secureMiddleware, (request, response) => {
 });
 
 router.get("/profiel/edit", secureMiddleware, (request, response) => {
-  response.render("profiel_edit", { user: request.session.user });
+  response.render("profiel_edit", { user: request.session.user, avatars });
 });
 
 router.post("/profiel/edit", secureMiddleware, async (request, response) => {
   const id = request.session.user?._id;
-  //console.log(id);
   const email = request.body.email;
-  const image = "";
+  const image = request.body.image;
   const username = request.body.username;
   const oudeWachtwoord = request.body.oudeWachtwoord;
   const nieuweWachtwoord = request.body.nieuweWachtwoord;
 
-  try {
-    let success = await editUser(
-      id,
-      email,
-      image,
-      username,
-      oudeWachtwoord,
-      nieuweWachtwoord,
-    );
+  console.log("image: " + image);
+  console.log("email: " + email);
 
-    if (success) {
-      request.session.destroy(() => {
-        response.redirect("/login");
+  const { success, passwordChanged } = await editUser(
+    id,
+    email,
+    image,
+    username,
+    oudeWachtwoord,
+    nieuweWachtwoord,
+  );
+
+  if (success && passwordChanged) {
+    request.session.destroy(() => {
+      response.render("login", {
+        error: "Wachtwoord gewijzigd, log opnieuw in",
       });
-    } else {
-      console.log("werkt niet");
-      response.render("profiel_edit", { user: request.session.user });
-    }
-  } catch (e) {
-    console.log(e);
+    });
+  } else if (success) {
+    request.session.user = { ...request.session.user, username, image, email };
+    response.redirect("/profiel");
+  } else {
+    response.render("profiel_edit", { user: request.session.user });
   }
 });
 

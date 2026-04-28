@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="css/general.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <header class="py-2 mb-3 border-bottom bg-white">
+    <div class="container d-flex align-items-center justify-content-between">
+      <div class="logo">
+        <a href="home.html">
+          <img src="assets/logo.png" alt="logo" width="50" height="50"
+        /></a>
+      </div>
+      <div class="dropdown">
+        <img
+          src="https://images.pexels.com/photos/6985001/pexels-photo-6985001.jpeg"
+          alt="profiel"
+          width="32"
+          height="32"
+          class="rounded-circle dropdown-toggle"
+          data-bs-toggle="dropdown"
+          style="cursor: pointer"
+        />
+
+        <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+          <li><a class="dropdown-item" href="#">Profiel</a></li>
+          <!-- profile page nog aanmaken-->
+          <li><hr class="dropdown-divider" /></li>
+          <li><a class="dropdown-item" href="index.html">Afmelden</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+  <body>
+    <div class="container py-5">
+      <header class="mb-5">
+        <h1 class="display-6 fw-bold">Vergelijk Muziek</h1>
+      </header>
+      <div class="mb-4">
+        <div class="d-flex gap-2">
+          <button class="btn btn-light border rounded-pill px-4"></button>
+          <button class="btn btn-light border rounded-pill px-4">
+            Vergelijk Artiesten
+          </button>
+        </div>
+      </div>
+      <div class="card p-4 mb-4 shadow-sm">
+        <h4 class="mb-4">Selecteer nummers om te vergelijken</h4>
+        <div class="row align-items-center">
+          <div class="col-md-5">
+            <label class="form-label">Nummer 1</label>
+            <select id="song1" class="form-select">
+              <option value="">Kies een liedje</option>
+            </select>
+          </div>
+          <div class="col-md-2 text-center">
+            <div class="border rounded p-3 fw-bold">VS</div>
+          </div>
+          <div class="col-md-5">
+            <label class="form-label">Nummer 2</label>
+            <select id="song2" class="form-select">
+              <option value="">Kies een liedje</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="card p-4 shadow-sm">
+        <h4 class="mb-4">Vergelijkingsresultaten</h4>
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th>Statistiek</th>
+              <th id="title1">Nummer 1</th>
+              <th id="title2">Nummer 2</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Populariteit</td>
+              <td id="pop1">-</td>
+              <td id="pop2">-</td>
+            </tr>
+            <tr>
+              <td>Energie</td>
+              <td id="energy1">-</td>
+              <td id="energy2">-</td>
+            </tr>
+            <tr>
+              <td>Ritme</td>
+              <td id="dance1">-</td>
+              <td id="dance2">-</td>
+            </tr>
+            <tr>
+              <td>Tempo</td>
+              <td id="tempo1">-</td>
+              <td id="tempo2">-</td>
+            </tr>
+            <tr>
+              <td>Sfeer</td>
+              <td id="mood1">-</td>
+              <td id="mood2">-</td>
+            </tr>
+            <tr>
+              <td>Akoestiek</td>
+              <td id="acoustic1">-</td>
+              <td id="acoustic2">-</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="js/compare.js"></script>
+  </body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Liedje pagina</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="css/general.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+ <header class="py-2 mb-3 border-bottom bg-white">
+    <div
+      class="container d-flex align-items-center justify-content-between" >
+     <div class="logo">
+      <a href="home.html"> <img src="assets/logo.png" alt="logo" width="50" height="50" /></a>
+     </div>
+      <div class="dropdown">
+        <button
+          class="btn dropdown-toggle"
+          type="button"
+          data-bs-toggle="dropdown"
+          style="
+            background-color: white;
+            border: 2px solid purple;
+            color: black;" >
+          Kies je mood
+        </button>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#"> Blij</a></li>
+          <li><a class="dropdown-item" href="#"> Moe</a></li>
+          <li><a class="dropdown-item" href="#"> Gemotiveerd</a></li>
+          <li><a class="dropdown-item" href="#"> Relaxed</a></li>
+        </ul>
+      </div>
+      <div class="dropdown">
+        <img
+          src="https://images.pexels.com/photos/6985001/pexels-photo-6985001.jpeg"
+          alt="profiel"
+          width="32"
+          height="32"
+          class="rounded-circle dropdown-toggle"
+          data-bs-toggle="dropdown"
+          style="cursor: pointer"
+        />
+
+        <ul class="dropdown-menu dropdown-menu-end text-small shadow">
+          <li><a class="dropdown-item" href="#">Profiel</a></li>  <!-- profile page nog aanmaken-->
+          <li><hr class="dropdown-divider" /></li>
+          <li><a class="dropdown-item" href="index.html">Afmelden</a></li>
+        </ul>
+      </div>
+    </div>
+  </header>
+<body class="song-page">
+
+<main class="container py-5">
+    <nav>
+        <a href="home.html" class="back-link">← Terug naar home</a>
+    </nav>
+
+    <header class="row align-items-center mt-4 g-4">
+        <figure class="col-md-3 mb-0">
+            <img id="songCover" class="song-cover img-fluid" alt="Album Cover">
+        </figure>
+
+        <section class="col-md-9">
+            <h1 id="songTitle" class="song-title-large"></h1>
+            <p id="songArtist" class="song-artist-large"></p>
+            <p class="song-album text-black">Album: After Hours</p>
+
+            <div class="song-buttons mt-3">
+                <button class="btn btn-light border"> Liken</button> 
+                <button class="btn btn-light border"> Fragment</button>
+            </div>
+        </section>
+    </header>
+    <section class="audio-card mt-5">
+        <h4 class="mb-4">Muzikale kenmerken</h4>
+
+        <div class="row g-4">
+            <article class="col-md-4 feature">
+                <h6>Energie</h6>
+                <span class="feature-value">0.73</span>
+                <p>Maatstaf voor intensiteit en activiteit</p>
+            </article>
+
+            <article class="col-md-4 feature">
+                <h6>Dansbaarheid</h6>
+                <span class="feature-value">0.51</span>
+                <p>Hoe geschikt dit is om op te dansen</p>
+            </article>
+
+            <article class="col-md-4 feature">
+                <h6>Tempo</h6>
+                <span class="feature-value">171 bpm</span>
+                <p>Slagen per minuut</p>
+            </article>
+            <article class="col-md-4 feature">
+                <h6>Valence (Sfeer)</h6>
+                <span class="feature-value">0.33</span>
+                <p>Muzikale positiviteit</p>
+            </article>
+            <article class="col-md-4 feature">
+                <h6>Akoestiek</h6>
+                <span class="feature-value">0.00</span>
+                <p>Akoestisch vs elektronisch</p>
+            </article>
+            <article class="col-md-4 feature">
+                <h6>Populariteit</h6>
+                <span id="songPopularity" class="feature-value"></span>
+                <p>Algemene populariteitsscore</p>
+            </article>
+        </div>
+    </section>
+</main>
+
+<script src="js/home.js"></script>
+</body>
+</html>

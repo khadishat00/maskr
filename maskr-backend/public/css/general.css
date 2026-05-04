@@ -304,3 +304,36 @@ button,
   align-items: start;
   padding: 15px;
 }
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.avatar-img {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.avatar-large {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.avatar-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar-option input:checked + img {
+  outline: 3px solid black;
+  outline-offset: 3px;
+}

@@ -36,44 +36,40 @@
       <div class="card shadow p-4 text-center" style="max-width: 500px; width: 100%; border-radius: 12px">
 
         <!-- Huidige avatar -->
-        <div class="mb-3">
-          <img
-            src="<%= user.image || '/assets/avatar01.png' %>"
-            alt="avatar"
-            class="rounded-circle"
-            width="100"
-            height="100"
+<div class="mb-3">
+  <img
+    src="<%= user.image || '/assets/avatar01.png' %>"
+    alt="avatar"
+    class="avatar avatar-large"
+  />
+</div>
+
+<!-- Form -->
+<form action="/profiel/edit" method="post">
+
+  <!-- Avatar keuze -->
+  <div class="mb-3">
+    <p><strong>Kies een avatar:</strong></p>
+
+    <div class="d-flex flex-wrap gap-2 justify-content-center">
+      <% avatars.forEach(avatar => { %>
+        <label class="avatar-option">
+          <input
+            type="radio"
+            name="image"
+            value="<%= avatar %>"
+            class="d-none"
+            <%= (user.image || '/assets/avatar01.png') === avatar ? "checked" : "" %>
           />
-        </div>
 
-        <!-- Form -->
-        <form action="/profiel/edit" method="post">
-
-          <!-- Avatar keuze -->
-          <div class="mb-3">
-            <p><strong>Kies een avatar:</strong></p>
-
-            <div class="d-flex flex-wrap gap-2 justify-content-center">
-              <% avatars.forEach(avatar => { %>
-                <label class="avatar-option">
-                  <input
-                    type="radio"
-                    name="image"
-                    value="<%= avatar %>"
-                    class="avatar-radio d-none"
-                    <%= (user.image || '/assets/avatar01.png') === avatar ? "checked" : "" %>
-                  />
-
-                  <img
-                    src="<%= avatar %>"
-                    width="60"
-                    height="60"
-                    class="rounded-circle"
-                  />
-                </label>
-              <% }) %>
-            </div>
-          </div>
+          <img
+            src="<%= avatar %>"
+            class="avatar"
+          />
+        </label>
+      <% }) %>
+    </div>
+  </div>
 
           <!-- Username -->
           <div class="text-start mb-3">

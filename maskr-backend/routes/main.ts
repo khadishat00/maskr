@@ -1,13 +1,15 @@
 import express, { Router } from "express";
 import { createUser, login } from "../database";
 import { avatars } from "../assets";
-
 import { User } from "../types";
 
 const router: Router = express.Router();
-
 router.get("/", (request, response) => {
   response.render("index");
+});
+
+router.get("/home", (request, response) => {
+  response.render("home");
 });
 
 router.get("/signin", (request, response) => {
@@ -20,31 +22,26 @@ router.post("/signin", async (request, response) => {
   const password: string = request.body.password;
   const image: string = avatars[0];
   let error = "";
-
-  //checks
-  if (username == "") {
+  if (username === "") {
     error = "Username mag niet leeg zijn";
-    return response.render("signin", { error: error });
+    return response.render("signin", { error });
   }
-
-  if (email == "") {
+  if (email === "") {
     error = "Email mag niet leeg zijn";
-    return response.render("signin", { error: error });
+    return response.render("signin", { error });
   }
-
   if (!email.includes("@")) {
-    error = "Vul een geldige email adres in";
-    return response.render("signin", { error: error });
+    error = "Vul een geldig emailadres in";
+    return response.render("signin", { error });
   }
-
-  if (password == "") {
+  if (password === "") {
     error = "Wachtwoord mag niet leeg zijn";
-    return response.render("signin", { error: error });
+    return response.render("signin", { error });
   }
   try {
     await createUser(username, email, password, image);
     return response.render("login", {
-      error: "account is aangemaakt nu kan je inloggen",
+      error: "Account is aangemaakt, nu kan je inloggen",
     });
   } catch (e) {
     console.log(e);
@@ -59,17 +56,13 @@ router.get("/login", (request, response) => {
 router.post("/login", async (request, response) => {
   const email: string = request.body.email;
   const password: string = request.body.password;
-
   try {
     let user: User = await login(email, password);
-    console.log(user);
-    //session
     delete user.password;
     request.session.user = user;
-
     request.session.save((err) => {
       if (err) {
-        console.log("Session save error:", err);
+        console.log(err);
         return response.render("login", { error: "Probeer het opnieuw" });
       }
       return response.redirect("/home");
@@ -78,11 +71,9 @@ router.post("/login", async (request, response) => {
     console.log(e);
     return response.render("login", { error: "Ongeldige email of wachtwoord" });
   }
-
-  //response.render("login", { error: error });
 });
 
-router.post("/logout", async (request, response) => {
+router.post("/logout", (request, response) => {
   request.session.destroy(() => {
     response.redirect("/login");
   });

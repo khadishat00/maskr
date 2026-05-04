@@ -1,54 +1,91 @@
 import express, { Router } from "express";
-import { secureMiddleware } from "../secureMiddleware";
-import { editUser } from "../database";
+import { createUser, login } from "../database";
 import { avatars } from "../assets";
+
+import { User } from "../types";
 
 const router: Router = express.Router();
 
-router.get("/home", secureMiddleware, (request, response) => {
-  response.render("home", { user: request.session.user });
+router.get("/", (request, response) => {
+  response.render("index");
 });
 
-router.get("/profiel", secureMiddleware, (request, response) => {
-  response.render("profiel", { user: request.session.user });
+router.get("/signin", (request, response) => {
+  response.render("signin", { error: "" });
 });
 
-router.get("/profiel/edit", secureMiddleware, (request, response) => {
-  response.render("profiel_edit", { user: request.session.user, avatars });
-});
+router.post("/signin", async (request, response) => {
+  const username: string = request.body.username;
+  const email: string = request.body.email;
+  const password: string = request.body.password;
+  const image: string = avatars[0];
+  let error = "";
 
-router.post("/profiel/edit", secureMiddleware, async (request, response) => {
-  const id = request.session.user?._id;
-  const email = request.body.email;
-  const image = request.body.image;
-  const username = request.body.username;
-  const oudeWachtwoord = request.body.oudeWachtwoord;
-  const nieuweWachtwoord = request.body.nieuweWachtwoord;
+  //checks
+  if (username == "") {
+    error = "Username mag niet leeg zijn";
+    return response.render("signin", { error: error });
+  }
 
-  console.log("image: " + image);
-  console.log("email: " + email);
+  if (email == "") {
+    error = "Email mag niet leeg zijn";
+    return response.render("signin", { error: error });
+  }
 
-  const { success, passwordChanged } = await editUser(
-    id,
-    email,
-    image,
-    username,
-    oudeWachtwoord,
-    nieuweWachtwoord,
-  );
+  if (!email.includes("@")) {
+    error = "Vul een geldige email adres in";
+    return response.render("signin", { error: error });
+  }
 
-  if (success && passwordChanged) {
-    request.session.destroy(() => {
-      response.render("login", {
-        error: "Wachtwoord gewijzigd, log opnieuw in",
-      });
+  if (password == "") {
+    error = "Wachtwoord mag niet leeg zijn";
+    return response.render("signin", { error: error });
+  }
+  try {
+    await createUser(username, email, password, image);
+    return response.render("login", {
+      error: "account is aangemaakt nu kan je inloggen",
     });
-  } else if (success) {
-    request.session.user = { ...request.session.user, username, image, email };
-    response.redirect("/profiel");
-  } else {
-    response.render("profiel_edit", { user: request.session.user });
+  } catch (e) {
+    console.log(e);
+    return response.render("signin", { error: "Probeer het opnieuw" });
   }
 });
 
-module.exports = router;
+router.get("/login", (request, response) => {
+  response.render("login", { error: "" });
+});
+
+router.post("/login", async (request, response) => {
+  const email: string = request.body.email;
+  const password: string = request.body.password;
+
+  try {
+    let user: User = await login(email, password);
+    console.log(user);
+    //session
+    delete user.password;
+    request.session.user = user;
+
+    request.session.save((err) => {
+      if (err) {
+        console.log("Session save error:", err);
+        return response.render("login", { error: "Probeer het opnieuw" });
+      }
+      return response.redirect("/home");
+    });
+  } catch (e) {
+    console.log(e);
+    return response.render("login", { error: "Ongeldige email of wachtwoord" });
+  }
+
+  //response.render("login", { error: error });
+});
+
+router.post("/logout", async (request, response) => {
+  request.session.destroy(() => {
+    response.redirect("/login");
+  });
+});
+
+export default router;

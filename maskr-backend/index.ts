@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 import path from "path";
 import { connect } from "./database";
 import session from "./session";
+import mainRoutes from "./routes/main";
+import protectedRoutes from "./routes/protected";
 
 dotenv.config();
 
@@ -18,12 +20,10 @@ app.use(session);
 
 app.set("port", process.env.PORT || 3000);
 
-const mainRoutes = require("./routes/main");
-const protectedRoutes = require("./routes/protected");
-
 //routes
 app.use(mainRoutes);
 app.use(protectedRoutes);
+
 
 app.listen(app.get("port"), async () => {
   try {

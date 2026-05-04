@@ -7,12 +7,3 @@ export interface User {
   email: string;
   password?: string;
 }
-
-
-
-
-//song
-
-export interface song{
-  
-}

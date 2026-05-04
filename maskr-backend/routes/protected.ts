@@ -1,32 +1,60 @@
 import express, { Router } from "express";
 import { secureMiddleware } from "../secureMiddleware";
 import { editUser } from "../database";
-import { avatars } from "../assets";
 
 const router: Router = express.Router();
 
-router.get("/home", secureMiddleware, (request, response) => {
-  response.render("home", { user: request.session.user });
+// 👇 avatars
+const avatars = [
+  "/assets/avatar01.png",
+  "/assets/avatar02.png",
+  "/assets/avatar03.png",
+  "/assets/avatar04.png",
+  "/assets/avatar05.png",
+  "/assets/avatar06.png",
+  "/assets/avatar07.png",
+  "/assets/avatar08.png",
+  "/assets/avatar09.png",
+  "/assets/avatar10.png",
+  "/assets/avatar11.png",
+  "/assets/avatar12.png",
+];
+
+// HOME
+router.get("/home", secureMiddleware, (req, res) => {
+  res.render("home", { user: req.session.user });
 });
 
-router.get("/profiel", secureMiddleware, (request, response) => {
-  response.render("profiel", { user: request.session.user });
+// PROFIEL
+router.get("/profiel", secureMiddleware, (req, res) => {
+  res.render("profiel", { user: req.session.user });
 });
 
-router.get("/profiel/edit", secureMiddleware, (request, response) => {
-  response.render("profiel_edit", { user: request.session.user, avatars });
+// EDIT PAGE
+router.get("/profiel/edit", secureMiddleware, (req, res) => {
+  res.render("profiel_edit", {
+    user: req.session.user,
+    avatars,
+  });
 });
 
-router.post("/profiel/edit", secureMiddleware, async (request, response) => {
-  const id = request.session.user?._id;
-  const email = request.body.email;
-  const image = request.body.image;
-  const username = request.body.username;
-  const oudeWachtwoord = request.body.oudeWachtwoord;
-  const nieuweWachtwoord = request.body.nieuweWachtwoord;
+// SAVE EDIT
+router.post("/profiel/edit", secureMiddleware, async (req, res) => {
+  const user = req.session.user;
 
-  console.log("image: " + image);
-  console.log("email: " + email);
+  if (!user) {
+    return res.redirect("/login");
+  }
+
+  const id = user._id;
+
+  const email = req.body.email;
+  const image = req.body.image;
+  const username = req.body.username;
+  const oudeWachtwoord = req.body.oudeWachtwoord;
+  const nieuweWachtwoord = req.body.nieuweWachtwoord;
+
+  console.log("gekozen avatar:", image);
 
   const { success, passwordChanged } = await editUser(
     id,
@@ -38,17 +66,29 @@ router.post("/profiel/edit", secureMiddleware, async (request, response) => {
   );
 
   if (success && passwordChanged) {
-    request.session.destroy(() => {
-      response.render("login", {
+    req.session.destroy(() => {
+      res.render("login", {
         error: "Wachtwoord gewijzigd, log opnieuw in",
       });
     });
-  } else if (success) {
-    request.session.user = { ...request.session.user, username, image, email };
-    response.redirect("/profiel");
-  } else {
-    response.render("profiel_edit", { user: request.session.user });
+    return;
   }
+
+  if (success) {
+    req.session.user = {
+      ...user,
+      username,
+      email,
+      image: image || user.image || "/assets/avatar01.png",
+    };
+
+    return res.redirect("/profiel");
+  }
+
+  return res.render("profiel_edit", {
+    user,
+    avatars,
+  });
 });
 
 module.exports = router;

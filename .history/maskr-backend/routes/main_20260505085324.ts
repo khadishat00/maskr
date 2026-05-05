@@ -3,7 +3,7 @@ import { createUser, login } from "../database";
 import { avatars } from "../assets";
 import { User } from "../types";
 import YTMusic from "ytmusic-api";
-import { addFavorite, removeFavorite, getFavorites } from "../models/favorite";
+import { addFavorite, removeFavorite, getFavorites } from "../models/Favorite";
 
 
 const router: Router = express.Router();

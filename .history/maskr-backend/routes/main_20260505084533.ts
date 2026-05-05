@@ -3,7 +3,7 @@ import { createUser, login } from "../database";
 import { avatars } from "../assets";
 import { User } from "../types";
 import YTMusic from "ytmusic-api";
-import { addFavorite, removeFavorite, getFavorites } from "../models/favorite";
+import { addFavorite, removeFavorite, getFavorites } from "../models/Favorite";
 
 
 const router: Router = express.Router();
@@ -109,10 +109,10 @@ router.get("/api/popular-songs", async (req, res) => {
   }
 });
 
-//  favorite toevoegen
+// Voeg favorite toe
 router.post("/api/favorites/:songId", async (req, res) => {
   try {
-    if (!req.session.user?._id) {
+    if (!req.session.user) {
       return res.status(401).json({ error: "Niet ingelogd" });
     }
     
@@ -126,7 +126,7 @@ router.post("/api/favorites/:songId", async (req, res) => {
 // Verwijder favorite
 router.delete("/api/favorites/:songId", async (req, res) => {
   try {
-    if (!req.session.user?._id) {
+    if (!req.session.user) {
       return res.status(401).json({ error: "Niet ingelogd" });
     }
     
@@ -140,7 +140,7 @@ router.delete("/api/favorites/:songId", async (req, res) => {
 // favorites ophalen
 router.get("/api/favorites", async (req, res) => {
   try {
-    if (!req.session.user?._id) {
+    if (!req.session.user) {
       return res.status(401).json({ error: "Niet ingelogd" });
     }
     

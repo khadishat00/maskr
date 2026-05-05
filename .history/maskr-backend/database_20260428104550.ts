@@ -106,5 +106,3 @@ export async function connect() {
   console.log("Connected to database");
   process.on("SIGINT", exit);
 }
-
-export const db = client.db("maskr");

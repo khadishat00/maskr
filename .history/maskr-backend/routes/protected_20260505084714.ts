@@ -1,16 +1,12 @@
 import express, { Router } from "express";
 import { createUser, login } from "../database";
 import { avatars } from "../assets";
+import { secureMiddleware } from "../secureMiddleware";
 import { User } from "../types";
-import YTMusic from "ytmusic-api";
-import { addFavorite, removeFavorite, getFavorites } from "../models/favorite";
+import { getFavorites } from "../models/Favorite";
 
 
 const router: Router = express.Router();
-const ytmusic = new YTMusic();
-
-// initialiseren van ytmusic
-ytmusic.initialize().catch(console.error);
 
 router.get("/", (request, response) => {
   response.render("index");
@@ -27,6 +23,7 @@ router.post("/signin", async (request, response) => {
   const image: string = avatars[0];
   let error = "";
 
+  //checks
   if (username == "") {
     error = "Username mag niet leeg zijn";
     return response.render("signin", { error: error });
@@ -68,6 +65,7 @@ router.post("/login", async (request, response) => {
   try {
     let user: User = await login(email, password);
     console.log(user);
+    //session
     delete user.password;
     request.session.user = user;
 
@@ -82,6 +80,8 @@ router.post("/login", async (request, response) => {
     console.log(e);
     return response.render("login", { error: "Ongeldige email of wachtwoord" });
   }
+
+  //response.render("login", { error: error });
 });
 
 router.post("/logout", async (request, response) => {
@@ -90,67 +90,11 @@ router.post("/logout", async (request, response) => {
   });
 });
 
-// API route
-router.get("/api/songs/:query", async (req, res) => {
-  try {
-    const results = await ytmusic.search(req.params.query);
-    res.json(results);
-  } catch (error) {
-    res.status(500).json({ error: "Zoeken mislukt" });
-  }
+
+
+// home login
+router.get("/home", secureMiddleware, (req, res) => {
+  res.render("home", { user: req.session.user });
 });
-
-router.get("/api/popular-songs", async (req, res) => {
-  try {
-    const results = await ytmusic.search("popular music");
-    res.json(results);
-  } catch (error) {
-    res.status(500).json({ error: "Nummers laden mislukt" });
-  }
-});
-
-//  favorite toevoegen
-router.post("/api/favorites/:songId", async (req, res) => {
-  try {
-    if (!req.session.user?._id) {
-      return res.status(401).json({ error: "Niet ingelogd" });
-    }
-    
-    const result = await addFavorite(req.session.user._id.toString(), req.body.song);
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: "Favorite toevoegen mislukt" });
-  }
-});
-
-// Verwijder favorite
-router.delete("/api/favorites/:songId", async (req, res) => {
-  try {
-    if (!req.session.user?._id) {
-      return res.status(401).json({ error: "Niet ingelogd" });
-    }
-    
-    const result = await removeFavorite(req.session.user._id.toString(), req.params.songId);
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: "Favorite verwijderen mislukt" });
-  }
-});
-
-// favorites ophalen
-router.get("/api/favorites", async (req, res) => {
-  try {
-    if (!req.session.user?._id) {
-      return res.status(401).json({ error: "Niet ingelogd" });
-    }
-    
-    const favorites = await getFavorites(req.session.user._id.toString());
-    res.json(favorites);
-  } catch (error) {
-    res.status(500).json({ error: "Favorites laden mislukt" });
-  }
-});
-
-
 
 export default router;

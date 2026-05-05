@@ -3,13 +3,13 @@ import { createUser, login } from "../database";
 import { avatars } from "../assets";
 import { User } from "../types";
 import YTMusic from "ytmusic-api";
-import { addFavorite, removeFavorite, getFavorites } from "../models/favorite";
+import { addFavorite, removeFavorite, getFavorites } from "../models/Favorite";
 
 
 const router: Router = express.Router();
 const ytmusic = new YTMusic();
 
-// initialiseren van ytmusic
+// inti YTMusic
 ytmusic.initialize().catch(console.error);
 
 router.get("/", (request, response) => {
@@ -106,48 +106,6 @@ router.get("/api/popular-songs", async (req, res) => {
     res.json(results);
   } catch (error) {
     res.status(500).json({ error: "Nummers laden mislukt" });
-  }
-});
-
-//  favorite toevoegen
-router.post("/api/favorites/:songId", async (req, res) => {
-  try {
-    if (!req.session.user?._id) {
-      return res.status(401).json({ error: "Niet ingelogd" });
-    }
-    
-    const result = await addFavorite(req.session.user._id.toString(), req.body.song);
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: "Favorite toevoegen mislukt" });
-  }
-});
-
-// Verwijder favorite
-router.delete("/api/favorites/:songId", async (req, res) => {
-  try {
-    if (!req.session.user?._id) {
-      return res.status(401).json({ error: "Niet ingelogd" });
-    }
-    
-    const result = await removeFavorite(req.session.user._id.toString(), req.params.songId);
-    res.json(result);
-  } catch (error) {
-    res.status(500).json({ error: "Favorite verwijderen mislukt" });
-  }
-});
-
-// favorites ophalen
-router.get("/api/favorites", async (req, res) => {
-  try {
-    if (!req.session.user?._id) {
-      return res.status(401).json({ error: "Niet ingelogd" });
-    }
-    
-    const favorites = await getFavorites(req.session.user._id.toString());
-    res.json(favorites);
-  } catch (error) {
-    res.status(500).json({ error: "Favorites laden mislukt" });
   }
 });
 

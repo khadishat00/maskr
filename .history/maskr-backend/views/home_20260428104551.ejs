@@ -13,12 +13,13 @@
     <link rel="stylesheet" href="css/general.css" />
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
+
   <header class="py-2 mb-3 border-bottom bg-white">
-    <div
-      class="container d-flex align-items-center justify-content-between"
-    >
+    <div class="container d-flex align-items-center justify-content-between">
       <div class="logo">
-       <a href="home.html"> <img src="assets/logo.png" alt="logo" width="50" height="50" /></a>
+        <a href="home.html">
+          <img src="assets/logo.png" alt="logo" width="50" height="50"
+        /></a>
       </div>
       <div class="dropdown">
         <button
@@ -28,7 +29,9 @@
           style="
             background-color: white;
             border: 2px solid purple;
-            color: black;" >
+            color: black;
+          "
+        >
           Kies je mood
         </button>
         <ul class="dropdown-menu">
@@ -40,7 +43,7 @@
       </div>
       <div class="dropdown">
         <img
-          src="https://images.pexels.com/photos/6985001/pexels-photo-6985001.jpeg"
+          src="<%= user.image %>"
           alt="profiel"
           width="32"
           height="32"
@@ -50,9 +53,16 @@
         />
 
         <ul class="dropdown-menu dropdown-menu-end text-small shadow">
-          <li><a class="dropdown-item" href="#">Profiel</a></li>  <!-- profile page nog aanmaken-->
+          <li><a class="dropdown-item" href="/profiel">Profiel</a></li>
+          <!-- profile page nog aanmaken-->
           <li><hr class="dropdown-divider" /></li>
-          <li><a class="dropdown-item" href="index.html">Afmelden</a></li>
+          <li>
+            <form action="/logout" method="post" style="width: 100%">
+              <button class="dropdown-item" style="width: 100%" type="submit">
+                Uitloggen
+              </button>
+            </form>
+          </li>
         </ul>
       </div>
     </div>
@@ -94,9 +104,12 @@
                 <div class="icon-box gradient-blue me-3 text-white">
                   <i data-lucide="rows-3" style="width: 32px; height: 32px"></i>
                 </div>
-                <div onclick="window.location.href='collection.html'" style="cursor: pointer;">
+                <div
+                  onclick="window.location.href = 'collection.html'"
+                  style="cursor: pointer"
+                >
                   <h3 class="h5 fw-bold mb-1">Bekijk collecties</h3>
-                  <p class="small text-purple-900 ">
+                  <p class="small text-purple-900">
                     Blader door je favoriete nummers
                   </p>
                 </div>
@@ -109,8 +122,8 @@
                 <div class="icon-box gradient-orange me-3 text-white">
                   <i data-lucide="trophy" style="width: 32px; height: 32px"></i>
                 </div>
-                <div onclick="window.location.href='guessthesong.html'">
-                    <h3 class="h5 fw-bold mb-1">Raad het nummer</h3>
+                <div onclick="window.location.href = 'guessthesong.html'">
+                  <h3 class="h5 fw-bold mb-1">Raad het nummer</h3>
                   <p class="small text-purple-900">Test je muziekkennis</p>
                 </div>
               </div>
@@ -121,7 +134,10 @@
 
       <section class="mb-5">
         <h2 class="h4 fw-bold text-black mb-4">🎵 Nummer van de week</h2>
-        <div class="card song-of-the-week border-2 shadow-sm" onclick="window.location.href='song.html?song=Blinding%20Lights'">
+        <div
+          class="card song-of-the-week border-2 shadow-sm"
+          onclick="window.location.href = 'song.html?song=Blinding%20Lights'"
+        >
           <div class="card-body p-4 d-flex align-items-center">
             <img
               src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=300"
@@ -131,7 +147,7 @@
             <div class="ms-4 flex-grow-1">
               <h3 class="h3 fw-bold mb-1">Blinding Lights</h3>
               <p class="text-purple-900 fs-5 mb-3">The Weeknd</p>
-              <div class="d-flex gap-3 text-sm text-purple-900 ">
+              <div class="d-flex gap-3 text-sm text-purple-900">
                 <span>Populariteit: 95%</span>
                 <span>Energie: 80%</span>
               </div>
@@ -143,7 +159,6 @@
       <section class="mb-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
           <h2 class="h4 fw-bold text-black">🔥 Populaire Nummers</h2>
-        
         </div>
         <div
           id="popularSongsGrid"
@@ -155,7 +170,7 @@
     <script src="js/home.js"></script>
     <script src="js/zoek.js"></script>
     <script>
-  lucide.createIcons();
-</script>
-</body>
+      lucide.createIcons();
+    </script>
+  </body>
 </html>

@@ -226,13 +226,307 @@ body {
 
 /* collectie pagina */
 
-.search {
-  padding: 10px;
-  float: left;
-  width: 20%;
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #eaf1ff, #f0ddff);
+}
+
+.text-purple-900,
+.sort-box label,
+.modal-box h2 {
+  color: #5b21b6;
+}
+
+.text-purple-700,
+#messageText,
+.search-box span {
+  color: #7c3aed;
+}
+
+.search-wrapper,
+.search-box,
+.top-row,
+.nav-buttons,
+.filter-row,
+.control-row,
+.sort-box,
+.modal-buttons,
+.app {
+  display: flex;
+}
+
+.search-wrapper,
+.search-box,
+.top-row,
+.control-row,
+.sort-box {
+  align-items: center;
+}
+
+.app {
+  justify-content: center;
+  width: 100%;
+}
+
+.search-wrapper {
+  gap: 14px;
+  background: white;
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.search-icon {
+  width: 24px;
+  height: 24px;
+}
+
+.custom-input,
+.custom-input:focus,
+.search-box input {
+  border: none;
+  box-shadow: none;
+  outline: none;
+}
+
+.btn-search {
+  border-radius: 10px;
+  padding: 12px 28px;
+}
+
+.library-box {
+  width: 100%;
+  max-width: 900px;
+  background: white;
+  border: 2px solid #e9d5ff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(80, 0, 120, 0.12);
+}
+
+.top-row,
+.control-row {
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.nav-buttons,
+.filter-row,
+.modal-buttons {
+  gap: 10px;
+}
+
+.filter-row {
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.library-box h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #1f1f1f;
+}
+
+.small-button,
+.create-button,
+.filter-button,
+.modal-buttons button {
   border: none;
   cursor: pointer;
 }
+
+.small-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f3e8ff;
+  color: #4b006e;
+  font-size: 18px;
+}
+
+.create-button,
+.filter-button.active,
+.type-label,
+.modal-buttons button[type="submit"] {
+  background: #7e22ce;
+  color: white;
+}
+
+.create-button,
+.filter-button {
+  border-radius: 20px;
+  padding: 8px 18px;
+}
+
+.filter-button {
+  border: 1px solid #d8b4fe;
+  background: white;
+  color: #4b006e;
+}
+
+.search-box {
+  flex: 1;
+  gap: 10px;
+  background: #faf5ff;
+  border: 1px solid #e9d5ff;
+  border-radius: 12px;
+  padding: 10px 14px;
+}
+
+.search-box input {
+  width: 100%;
+  background: transparent;
+}
+
+.search-box span,
+.sort-box label,
+.type-label {
+  font-size: 14px;
+}
+
+.sort-box {
+  gap: 8px;
+}
+
+.sort-box select,
+.modal-box input,
+.modal-box select {
+  border: 1px solid #d8b4fe;
+  border-radius: 10px;
+  padding: 8px;
+  background: white;
+}
+
+#messageText {
+  margin-bottom: 16px;
+}
+
+.playlist-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 18px;
+}
+
+.card {
+  position: relative;
+  overflow: hidden;
+  background: white;
+  border: 1px solid #e9d5ff;
+  border-radius: 14px;
+  box-shadow: 0 6px 18px rgba(80, 0, 120, 0.1);
+}
+
+.card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+}
+
+.card-text {
+  padding: 14px;
+}
+
+.card-text h3 {
+  font-size: 18px;
+  margin: 0 0 6px;
+  color: #1f1f1f;
+}
+
+.card-text p {
+  margin: 0;
+  color: #666;
+}
+
+.type-label {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  border-radius: 12px;
+  padding: 4px 10px;
+  font-size: 12px;
+}
+
+.modal-background {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(20, 0, 30, 0.45);
+  padding: 20px;
+  z-index: 999;
+}
+
+.modal-background.hidden {
+  display: none;
+}
+
+.modal-box {
+  width: 100%;
+  max-width: 420px;
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.25);
+}
+
+.modal-box h2 {
+  margin-top: 0;
+  margin-bottom: 18px;
+}
+
+.modal-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.modal-box label {
+  font-weight: bold;
+  color: #333;
+}
+
+.modal-buttons {
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
+.modal-buttons button {
+  border-radius: 10px;
+  padding: 9px 16px;
+}
+
+#cancelButton {
+  background: #e5e5e5;
+  color: #222;
+}
+
+@media (max-width: 600px) {
+  .control-row {
+    flex-direction: column;
+  }
+
+  .library-box {
+    padding: 18px;
+  }
+
+  .search-wrapper {
+    flex-wrap: wrap;
+  }
+
+  .btn-search {
+    width: 100%;
+  }
+}
+
 
 /*  guessthesong */
 

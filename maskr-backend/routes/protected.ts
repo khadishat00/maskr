@@ -1,8 +1,10 @@
 import express, { Router } from "express";
 import { createUser, login } from "../database";
 import { avatars } from "../assets";
-
+import { secureMiddleware } from "../secureMiddleware";
 import { User } from "../types";
+import { getFavorites } from "../models/favorite";
+
 
 const router: Router = express.Router();
 
@@ -87,5 +89,55 @@ router.post("/logout", async (request, response) => {
     response.redirect("/login");
   });
 });
+
+
+
+// home login
+router.get("/home", secureMiddleware, (req, res) => {
+  res.render("home", { user: req.session.user });
+});
+
+
+
+// Collection (favorites)
+router.get("/collection", secureMiddleware, async (req, res) => {
+  try {
+    const favorites = await getFavorites(req.session.user!._id!.toString());
+    res.render("collection", { user: req.session.user, favorites });
+  } catch (error) {
+    res.render("collection", { user: req.session.user, favorites: [] });
+  }
+});
+
+
+// song details
+router.get("/song/:id", secureMiddleware, async (req, res) => {
+  try {
+    const favorites = await getFavorites(req.session.user!._id!.toString());
+    const isFavorite = favorites.some((fav: any) => fav.song.id === req.params.id);
+    
+    res.render("song", { 
+      user: req.session.user, 
+      isFavorite,
+      songId: req.params.id 
+    });
+  } catch (error) {
+    res.render("song", { user: req.session.user, isFavorite: false, songId: req.params.id });
+  }
+});
+
+// profiel (redan exists)
+router.get("/profiel", secureMiddleware, (req, res) => {
+  res.render("profiel", { user: req.session.user });
+});
+
+// Game (guess the song)
+router.get("/guessthesong", secureMiddleware, async (req, res) => {
+  res.render("guessthesong", { user: req.session.user });
+});
+
+
+
+
 
 export default router;

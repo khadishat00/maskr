@@ -1,14 +1,6 @@
-const moodMap = {
-  chill: "chill",
-  happy: "happy hits",
-  party: "party",
-  focus: "focus"
-};
-
 let score = 0;
 let currentMood = "chill";
 let currentSong = null;
-let audio = null;
 
 const moodSelect = document.getElementById("moodSelect");
 const scoreText = document.getElementById("score");
@@ -27,7 +19,7 @@ startApp();
 function startApp() {
   moodSelect.addEventListener("change", changeMood);
   resetButton.addEventListener("click", resetScore);
-  playButton.addEventListener("click", playSongPreview);
+  playButton.addEventListener("click", openSong);
   guessInput.addEventListener("input", checkInput);
   guessForm.addEventListener("submit", checkAnswer);
 
@@ -35,58 +27,38 @@ function startApp() {
 }
 
 async function loadSong(mood) {
-  stopAudio();
   statusText.textContent = "Loading song...";
   message.textContent = "";
   playButton.disabled = true;
-
-  const query = moodMap[mood];
-  const url = "https://api.deezer.com/search?q=" + encodeURIComponent(query) + "&limit=25&output=jsonp";
+  submitButton.disabled = true;
 
   try {
-    const data = await getJsonp(url);
-    const songs = data.data;
-    const songsWithPreview = [];
+    const response = await fetch("/api/song?mood=" + encodeURIComponent(mood));
+    const song = await response.json();
 
-    for (let i = 0; i < songs.length; i++) {
-      if (songs[i].preview) {
-        songsWithPreview.push(songs[i]);
-      }
-    }
-
-    if (songsWithPreview.length === 0) {
-      statusText.textContent = "No song preview found.";
+    if (!response.ok || !song.title) {
+      statusText.textContent = "No song found.";
       return;
     }
 
-    const randomNumber = Math.floor(Math.random() * songsWithPreview.length);
-    const song = songsWithPreview[randomNumber];
-
     currentSong = song;
-    coverImage.src = song.album.cover_medium;
-    statusText.textContent = "Press play and guess the song.";
+    coverImage.src = song.image || "";
+    statusText.textContent = "Open the song and guess the title or artist.";
     playButton.disabled = false;
   } catch (error) {
-    statusText.textContent = "Could not load song from Deezer.";
+    statusText.textContent = "Could not load song from YouTube Music.";
   }
 }
 
-function playSongPreview() {
-  if (!currentSong || !currentSong.preview) {
-    statusText.textContent = "No preview available.";
+function openSong() {
+  if (!currentSong || !currentSong.videoId) {
+    statusText.textContent = "No song link available.";
     return;
   }
 
-  stopAudio();
-
-  audio = new Audio(currentSong.preview);
-  audio.play();
-  statusText.textContent = "Preview is playing...";
-
-  setTimeout(function () {
-    stopAudio();
-    statusText.textContent = "Preview ended. Enter your guess.";
-  }, 15000);
+  const songUrl = "https://music.youtube.com/watch?v=" + currentSong.videoId;
+  window.open(songUrl, "_blank");
+  statusText.textContent = "Song opened in YouTube Music. Listen and guess.";
 }
 
 function checkAnswer(event) {
@@ -98,7 +70,7 @@ function checkAnswer(event) {
 
   const userGuess = guessInput.value.trim().toLowerCase();
   const songTitle = currentSong.title.toLowerCase();
-  const artistName = currentSong.artist.name.toLowerCase();
+  const artistName = currentSong.artist.toLowerCase();
 
   if (userGuess === "") {
     return;
@@ -111,14 +83,13 @@ function checkAnswer(event) {
     userGuess.includes(artistName);
 
   if (correct) {
-    score = score + 1;
+    score = score + 10;
     scoreText.textContent = score;
-    message.textContent = "Correct answer!";
+    message.textContent = "Juist antwoord! +10";
     guessInput.value = "";
-    submitButton.disabled = true;
     loadSong(currentMood);
   } else {
-    message.textContent = "Wrong guess. Try again.";
+    message.textContent = "Verkeerde gok. Probeer het opnieuw.";
     guessInput.value = "";
     submitButton.disabled = true;
   }
@@ -132,49 +103,14 @@ function resetScore() {
 
 function changeMood() {
   currentMood = moodSelect.value;
+
   const moodName = currentMood.charAt(0).toUpperCase() + currentMood.slice(1);
   moodBadge.textContent = "Current Mood: " + moodName;
+
   guessInput.value = "";
-  submitButton.disabled = true;
   loadSong(currentMood);
 }
 
 function checkInput() {
-  if (guessInput.value.trim() === "") {
-    submitButton.disabled = true;
-  } else {
-    submitButton.disabled = false;
-  }
-}
-
-function stopAudio() {
-  if (audio) {
-    audio.pause();
-    audio.currentTime = 0;
-    audio = null;
-  }
-}
-
-function getJsonp(url) {
-  return new Promise(function (resolve, reject) {
-    const callbackName = "deezerCallback" + Math.floor(Math.random() * 1000000);
-    const script = document.createElement("script");
-
-    window[callbackName] = function (data) {
-      resolve(data);
-      document.body.removeChild(script);
-      delete window[callbackName];
-    };
-
-    script.onerror = function () {
-      reject();
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-      delete window[callbackName];
-    };
-
-    script.src = url + "&callback=" + callbackName;
-    document.body.appendChild(script);
-  });
+  submitButton.disabled = guessInput.value.trim() === "";
 }

@@ -27,13 +27,18 @@ const fallbackImages = [
 ];
 
 const starterItems = [
-  { title: "Liked Songs", query: "liked songs chill", type: "playlist", creator: "Pulse" },
-  { title: "Your Episodes", query: "podcast motivation", type: "podcast", creator: "Pulse" },
-  { title: "Chill Vibes", query: "chill vibes", type: "playlist", creator: "Deezer" },
-  { title: "Worship Mix", query: "worship mix", type: "playlist", creator: "Deezer" },
-  { title: "Afro Combo", query: "afro hits", type: "artist", creator: "Deezer" },
-  { title: "Prayer Songs", query: "prayer songs", type: "album", creator: "Deezer" }
+  { title: "Late Night Drive", query: "late night drive playlist", type: "playlist", creator: "YouTube Music" },
+  { title: "Morning Energy", query: "morning energy playlist", type: "playlist", creator: "YouTube Music" },
+  { title: "Study Focus", query: "study focus playlist", type: "playlist", creator: "YouTube Music" },
+  { title: "Chill Vibes", query: "chill vibes playlist", type: "playlist", creator: "YouTube Music" },
+  { title: "Afro Hits", query: "afro hits playlist", type: "playlist", creator: "YouTube Music" },
+  { title: "Worship Mix", query: "worship mix playlist", type: "playlist", creator: "YouTube Music" },
+  { title: "Workout Boost", query: "workout music playlist", type: "playlist", creator: "YouTube Music" },
+  { title: "Rainy Day Songs", query: "rainy day songs playlist", type: "playlist", creator: "YouTube Music" },
+  { title: "Throwback Party", query: "throwback party playlist", type: "playlist", creator: "YouTube Music" },
+  { title: "Relax & Reset", query: "relaxing music playlist", type: "playlist", creator: "YouTube Music" }
 ];
+
 
 addEvents();
 loadMusic();
@@ -109,6 +114,7 @@ function addEvents() {
 
     filterButtons.forEach(function (button) {
       button.classList.remove("active");
+
       if (button.dataset.type === newType) {
         button.classList.add("active");
       }
@@ -125,7 +131,7 @@ async function loadMusic() {
   messageText.textContent = "Loading music...";
 
   for (let i = 0; i < starterItems.length; i++) {
-    const result = await getMusicFromDeezer(starterItems[i], i);
+    const result = await getMusicFromYoutube(starterItems[i], i);
     musicItems.push(result);
   }
 
@@ -133,21 +139,23 @@ async function loadMusic() {
   showMusic();
 }
 
-async function getMusicFromDeezer(item, index) {
-  const url = "https://api.deezer.com/search?q=" + encodeURIComponent(item.query) + "&limit=1&output=jsonp";
+async function getMusicFromYoutube(item, index) {
+  const apiType = getYoutubeType(item.type);
+  const url =
+    "/api/music/search?q=" +
+    encodeURIComponent(item.query) +
+    "&type=" +
+    encodeURIComponent(apiType);
 
   try {
-    const data = await getJsonp(url);
+    const response = await fetch(url);
+    const data = await response.json();
 
-    if (data.data && data.data.length > 0) {
-      const song = data.data[0];
-      let image = fallbackImages[index % fallbackImages.length];
-
-      if (song.album && song.album.cover_big) {
-        image = song.album.cover_big;
-      } else if (song.artist && song.artist.picture_big) {
-        image = song.artist.picture_big;
-      }
+    if (data.content && data.content.length > 0) {
+      const result = data.content[0];
+      const image =
+        getBestThumbnail(result.thumbnails) ||
+        fallbackImages[index % fallbackImages.length];
 
       return {
         title: item.title,
@@ -159,7 +167,7 @@ async function getMusicFromDeezer(item, index) {
       };
     }
   } catch (error) {
-    console.log("Could not load Deezer data");
+    console.log("Could not load YouTube Music data");
   }
 
   return {
@@ -172,28 +180,32 @@ async function getMusicFromDeezer(item, index) {
   };
 }
 
-function getJsonp(url) {
-  return new Promise(function (resolve, reject) {
-    const callbackName = "myCallback" + Math.floor(Math.random() * 1000000);
-    const script = document.createElement("script");
+function getYoutubeType(type) {
+  if (type === "playlist") {
+    return "playlist";
+  }
 
-    window[callbackName] = function (data) {
-      resolve(data);
-      document.body.removeChild(script);
-      delete window[callbackName];
-    };
+  if (type === "album") {
+    return "album";
+  }
 
-    script.onerror = function () {
-      reject();
-      if (document.body.contains(script)) {
-        document.body.removeChild(script);
-      }
-      delete window[callbackName];
-    };
+  if (type === "artist") {
+    return "artist";
+  }
 
-    script.src = url + "&callback=" + callbackName;
-    document.body.appendChild(script);
-  });
+  if (type === "podcast") {
+    return "song";
+  }
+
+  return "song";
+}
+
+function getBestThumbnail(thumbnails) {
+  if (!thumbnails || thumbnails.length === 0) {
+    return "";
+  }
+
+  return thumbnails[thumbnails.length - 1].url;
 }
 
 function showMusic() {
